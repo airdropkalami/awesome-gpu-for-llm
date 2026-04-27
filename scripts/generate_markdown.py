@@ -1,7 +1,64 @@
-# 📊 LLM GPU Benchmark Dataset
+#!/usr/bin/env python3
+"""
+Generate benchmark/dataset.md from approved data/benchmark.json
+After approval, run: python3 scripts/generate_markdown.py
+"""
 
-**Version**: 21 entries  
-**Last Updated**: 2026-04-27  
+import json
+from pathlib import Path
+from datetime import date
+import sys
+
+WORK_DIR = Path("/tmp/llm-repo-work")
+DATA = WORK_DIR / "data/benchmark.json"
+OUT = WORK_DIR / "benchmark/dataset.md"
+
+def load_benchmark_data():
+    """Load and deduplicate benchmark entries."""
+    with open(DATA) as f:
+        data = json.load(f)
+
+    entries = data.get("entries", [])
+    
+    # Deduplicate by gpu_model key
+    seen = {}
+    for entry in entries:
+        key = f"{entry.get('gpu', '')}_{entry.get('model_size', '')}".lower()
+        if key not in seen or entry.get('tokens_per_sec', 0) > seen[key].get('tokens_per_sec', 0):
+            seen[key] = entry
+    
+    return list(seen.values())
+
+def generate_markdown(entries):
+    """Generate the full markdown document."""
+    count = len(entries)
+    
+    # Build dataset rows
+    rows_md = ""
+    for r in entries:
+        gpu = r.get('gpu', '')
+        vram = r.get('vram_gb', '')
+        model = f"{r.get('model', '')} {r.get('model_size', '')}".strip()
+        quant = r.get('quant', '')
+        framework = r.get('framework', '')
+        tps = r.get('tokens_per_sec', '')
+        fit_sym = r.get('fit', 'unknown')
+        conf = r.get('confidence', 'low')
+        
+        # Convert fit to symbol
+        if fit_sym == 'fit':
+            fit_disp = '✅'
+        elif 'limited' in fit_sym.lower():
+            fit_disp = '⚠️ limited'
+        else:
+            fit_disp = '❌'
+        
+        rows_md += f"| {gpu} | {vram}GB | {model} | {quant} | {framework} | {tps} | {fit_disp} | {conf} |\n"
+    
+    md = f"""# 📊 LLM GPU Benchmark Dataset
+
+**Version**: {count} entries  
+**Last Updated**: {date.today().isoformat()}  
 **Test Conditions**: Q4_K_XL (4-bit), CUDA 12.8, llama.cpp, 16K context  
 
 ---
@@ -33,28 +90,7 @@
 
 | GPU | VRAM | Model | Quant | Framework | tok/s | Fit | Confidence |
 |---|---:|---|---|---|---:|---|---|
-| RTX 5090 | 32GB | Qwen3 8B | Q4_K_XL | llama.cpp | 145.34 | ✅ | high |
-| RTX 5090 | 32GB | Qwen3 14B | Q4_K_XL | llama.cpp | 102.68 | ✅ | high |
-| RTX 4090 | 24GB | Qwen3 8B | Q4_K_XL | llama.cpp | 104.31 | ✅ | high |
-| RTX 4090 | 24GB | Qwen3 14B | Q4_K_XL | llama.cpp | 69.14 | ✅ | high |
-| RTX 4090 | 24GB | Qwen3 30B | Q4_K_XL | llama.cpp | 139.71 | ⚠️ limited | high |
-| RTX 3090 | 24GB | Qwen3 8B | Q4_K_XL | llama.cpp | 87.45 | ✅ | high |
-| RTX 3090 | 24GB | Qwen3 14B | Q4_K_XL | llama.cpp | 52.14 | ✅ | high |
-| RTX 3090 | 24GB | Qwen3 32B | Q4_K_XL | llama.cpp | 30.28 | ⚠️ limited | high |
-| RTX 4080 SUPER | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 79.36 | ✅ | high |
-| RTX 4070 | 12GB | Qwen3 8B | Q4_K_XL | llama.cpp | 52.07 | ✅ | high |
-| RTX 4070 | 12GB | Qwen3 14B | Q4_K_XL | llama.cpp | 32.66 | ✅ | high |
-| RTX 4070 Ti | 12GB | Qwen3 8B | Q4_K_XL | llama.cpp | 57.55 | ✅ | high |
-| RTX 4070 Ti SUPER | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 72.2 | ✅ | high |
-| RTX 5060 Ti | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 51.41 | ✅ | high |
-| RTX 4060 Ti | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 34.31 | ✅ | high |
-| RTX 3060 | 12GB | Qwen3 8B | Q4_K_XL | llama.cpp | 41.97 | ✅ | high |
-| RTX 3060 | 12GB | Qwen3 14B | Q4_K_XL | llama.cpp | 22.66 | ✅ | high |
-| RTX 5070 Ti | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 87.54 | ✅ | high |
-| RTX 5080 | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 94.14 | ✅ | high |
-| RTX 3090 Ti | 24GB | Qwen3 8B | Q4_K_XL | llama.cpp | 93.6 | ✅ | high |
-| RTX 3080 Ti | 12GB | Qwen3 8B | Q4_K_XL | llama.cpp | 87.94 | ✅ | high |
----
+{rows_md}---
 
 ## 🧩 Fit Definition
 
@@ -104,3 +140,26 @@ When referencing this data, please include:
 - Results vary by framework, quantization, CPU, RAM, drivers, and prompt length
 - This dataset should be used as a planning reference, not a lab-grade benchmark
 - Real-world performance may differ ±10-20%
+"""
+    return md
+
+def main():
+    if not DATA.exists():
+        print(f"ERROR: {DATA} not found")
+        sys.exit(1)
+    
+    entries = load_benchmark_data()
+    print(f"Loaded {len(entries)} unique entries after deduplication")
+    
+    md = generate_markdown(entries)
+    OUT.write_text(md)
+    print(f"Generated {OUT}")
+    
+    # Also copy to repo work dir
+    repo_out = Path("/tmp/llm-repo-work/benchmark/dataset.md")
+    if repo_out.parent.exists():
+        repo_out.write_text(md)
+        print(f"Copied to {repo_out}")
+
+if __name__ == "__main__":
+    main()

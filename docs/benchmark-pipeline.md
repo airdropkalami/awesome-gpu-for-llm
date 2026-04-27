@@ -1,8 +1,20 @@
+# Benchmark Report Generation Pipeline
+
+## Overview
+
+When the user approves new benchmark data (`data/benchmark.json`), run this pipeline to:
+1. Deduplicate entries in `benchmark.json`
+2. Generate `benchmark/dataset.md` in the approved format
+3. Push to GitHub
+
+## Approved Format Structure
+
+```
 # 📊 LLM GPU Benchmark Dataset
 
-**Version**: 21 entries  
-**Last Updated**: 2026-04-27  
-**Test Conditions**: Q4_K_XL (4-bit), CUDA 12.8, llama.cpp, 16K context  
+**Version**: {count} entries
+**Last Updated**: {date}
+**Test Conditions**: Q4_K_XL (4-bit), CUDA 12.8, llama.cpp, 16K context
 
 ---
 
@@ -33,27 +45,8 @@
 
 | GPU | VRAM | Model | Quant | Framework | tok/s | Fit | Confidence |
 |---|---:|---|---|---|---:|---|---|
-| RTX 5090 | 32GB | Qwen3 8B | Q4_K_XL | llama.cpp | 145.34 | ✅ | high |
-| RTX 5090 | 32GB | Qwen3 14B | Q4_K_XL | llama.cpp | 102.68 | ✅ | high |
-| RTX 4090 | 24GB | Qwen3 8B | Q4_K_XL | llama.cpp | 104.31 | ✅ | high |
-| RTX 4090 | 24GB | Qwen3 14B | Q4_K_XL | llama.cpp | 69.14 | ✅ | high |
-| RTX 4090 | 24GB | Qwen3 30B | Q4_K_XL | llama.cpp | 139.71 | ⚠️ limited | high |
-| RTX 3090 | 24GB | Qwen3 8B | Q4_K_XL | llama.cpp | 87.45 | ✅ | high |
-| RTX 3090 | 24GB | Qwen3 14B | Q4_K_XL | llama.cpp | 52.14 | ✅ | high |
-| RTX 3090 | 24GB | Qwen3 32B | Q4_K_XL | llama.cpp | 30.28 | ⚠️ limited | high |
-| RTX 4080 SUPER | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 79.36 | ✅ | high |
-| RTX 4070 | 12GB | Qwen3 8B | Q4_K_XL | llama.cpp | 52.07 | ✅ | high |
-| RTX 4070 | 12GB | Qwen3 14B | Q4_K_XL | llama.cpp | 32.66 | ✅ | high |
-| RTX 4070 Ti | 12GB | Qwen3 8B | Q4_K_XL | llama.cpp | 57.55 | ✅ | high |
-| RTX 4070 Ti SUPER | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 72.2 | ✅ | high |
-| RTX 5060 Ti | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 51.41 | ✅ | high |
-| RTX 4060 Ti | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 34.31 | ✅ | high |
-| RTX 3060 | 12GB | Qwen3 8B | Q4_K_XL | llama.cpp | 41.97 | ✅ | high |
-| RTX 3060 | 12GB | Qwen3 14B | Q4_K_XL | llama.cpp | 22.66 | ✅ | high |
-| RTX 5070 Ti | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 87.54 | ✅ | high |
-| RTX 5080 | 16GB | Qwen3 8B | Q4_K_XL | llama.cpp | 94.14 | ✅ | high |
-| RTX 3090 Ti | 24GB | Qwen3 8B | Q4_K_XL | llama.cpp | 93.6 | ✅ | high |
-| RTX 3080 Ti | 12GB | Qwen3 8B | Q4_K_XL | llama.cpp | 87.94 | ✅ | high |
+{rows}
+
 ---
 
 ## 🧩 Fit Definition
@@ -104,3 +97,38 @@ When referencing this data, please include:
 - Results vary by framework, quantization, CPU, RAM, drivers, and prompt length
 - This dataset should be used as a planning reference, not a lab-grade benchmark
 - Real-world performance may differ ±10-20%
+```
+
+## Generation Script
+
+Location: `/root/.openclaw/workspace-mina/projects/aaan/scripts/generate_markdown.py`
+
+## Deduplication Rules
+
+- Primary key: `{gpu}_{model_size}` (e.g., `rtx4090_8b`)
+- On conflict: keep newer entry (based on `last_updated` or source date)
+- Keep highest `tokens_per_sec` on same gpu+model
+
+## Usage
+
+```bash
+cd /root/.openclaw/workspace-mina/projects/aaan
+python3 scripts/generate_markdown.py
+```
+
+## Git Workflow
+
+```bash
+cd /tmp/llm-repo-work
+git add benchmark/dataset.md
+git commit -m "feat: update benchmark dataset $(date +%Y-%m-%d)"
+git push origin main
+```
+
+## Key Design Principles
+
+1. **TL;DR first** — 80% of readers only scan this
+2. **Insights over data** — Key observations before raw numbers
+3. **Decision-friendly** — Cheat Sheet for quick choices
+4. **Citation anchor** — Explicitly invite referencing
+5. **Technical depth at bottom** — Methodology for those who need it

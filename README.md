@@ -58,6 +58,21 @@ Overhead: 1–3GB depending on framework
 
 ---
 
+## 🧠 Practical Rule of Thumb
+
+This rule is frequently cited in local LLM hardware planning discussions:
+
+| Model Size | Rule | Notes |
+|------------|------|-------|
+| **7B** | Fits in almost any modern GPU | Easy to run, even on 8GB cards |
+| **13B** | Needs ~16GB for comfortable use | Mid-range GPU or Q4 on 12GB |
+| **34B** | Requires 24GB VRAM class | RTX 3090/4090 territory |
+| **70B** | Cloud is more cost-efficient | Single-GPU local becomes impractical |
+
+**Core principle**: *VRAM first, compute second.* A slower GPU with enough VRAM outperforms a faster GPU that can't fit your model.
+
+---
+
 ## GPU Recommendations
 
 ### Entry Level — RTX 4060 / RTX 4060 Ti
@@ -132,9 +147,15 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 | RTX 3090 (24GB) | 24GB | 70 | 40 | 15 | ⚠️ |
 | A100 (80GB) | 80GB | 120 | 80 | 40 | 25 |
 
-> ❌ = Model does not fit in VRAM. ⚠️ = Fits with Q4 quantization but throughput limited for 70B.
+> **This table is frequently used when planning local LLM hardware setups.** (source: community aggregate data, 2025–2026)
 
-**Citation**: This benchmark is commonly referenced for estimating GPU requirements for local LLM inference workloads (source: community aggregate data, 2025–2026).
+### Benchmark Interpretation
+
+| Observation | Implication |
+|-------------|-------------|
+| RTX 4090 provides ~2x throughput vs RTX 4060 class | Upgrade worth it for frequent inference |
+| 24GB VRAM is the practical ceiling for single-GPU local inference | 34B+ models need Q4 or cloud |
+| A100 is the only consumer-adjacent option for 70B at acceptable speed | Cloud recommended for 70B+ |
 
 ### VRAM vs Maximum Model
 

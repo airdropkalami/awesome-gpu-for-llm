@@ -1,0 +1,133 @@
+{
+  "generated_at": "2026-04-27T15:49:03.916789",
+  "sources_tested": {
+    "reddit_api": "blocked",
+    "reddit_html": "blocked",
+    "github_api": "working",
+    "huggingface": "working_limited",
+    "brave_search": "needs_api_key"
+  },
+  "github_releases": [
+    {
+      "source": "github",
+      "source_type": "release",
+      "repo": "llama.cpp",
+      "tag": "b8948",
+      "date": "2026-04-27",
+      "body": "<details open>\n\nFix type casting for unaccounted memory calculation (#22424)\n\n</details>\n\n**macOS/iOS:**\n- [macOS Apple Silicon (arm64)](https://github.com/ggml-org/llama.cpp/releases/download/b8948/llama-b8948-bin-macos-arm64.tar.gz)\n- [macOS Apple Silicon (arm64, KleidiAI enabled)](https://github.com/ggml-org/llama.cpp/releases/download/b8948/llama-b8948-bin-macos-arm64-kleidiai.tar.gz)\n- [macOS Intel (x64)](https://github.com/ggml-org/llama.cpp/releases/download/b8948/llama-b8948-bin-macos-x6",
+      "url": "https://github.com/ggml-org/llama.cpp/releases/tag/b8948"
+    },
+    {
+      "source": "github",
+      "source_type": "release",
+      "repo": "llama.cpp",
+      "tag": "b8947",
+      "date": "2026-04-27",
+      "body": "<details open>\n\ndownload : prefer q8_0 when q4_k not available (#22428)\n\n</details>\n\n**macOS/iOS:**\n- [macOS Apple Silicon (arm64)](https://github.com/ggml-org/llama.cpp/releases/download/b8947/llama-b8947-bin-macos-arm64.tar.gz)\n- [macOS Apple Silicon (arm64, KleidiAI enabled)](https://github.com/ggml-org/llama.cpp/releases/download/b8947/llama-b8947-bin-macos-arm64-kleidiai.tar.gz)\n- [macOS Intel (x64)](https://github.com/ggml-org/llama.cpp/releases/download/b8947/llama-b8947-bin-macos-x64.tar",
+      "url": "https://github.com/ggml-org/llama.cpp/releases/tag/b8947"
+    },
+    {
+      "source": "github",
+      "source_type": "release",
+      "repo": "llama.cpp",
+      "tag": "b8946",
+      "date": "2026-04-27",
+      "body": "<details open>\n\nmodel : remove duplicate wo_s scale after build_attn (Qwen3, LLaMA) (#22421)\n\nSigned-off-by: Yash Nankani <ynankani@nvidia.com>\n\n</details>\n\n**macOS/iOS:**\n- [macOS Apple Silicon (arm64)](https://github.com/ggml-org/llama.cpp/releases/download/b8946/llama-b8946-bin-macos-arm64.tar.gz)\n- [macOS Apple Silicon (arm64, KleidiAI enabled)](https://github.com/ggml-org/llama.cpp/releases/download/b8946/llama-b8946-bin-macos-arm64-kleidiai.tar.gz)\n- [macOS Intel (x64)](https://github.com/",
+      "url": "https://github.com/ggml-org/llama.cpp/releases/tag/b8946"
+    },
+    {
+      "source": "github",
+      "source_type": "release",
+      "repo": "llama.cpp",
+      "tag": "b8944",
+      "date": "2026-04-27",
+      "body": "<details open>\n\nggml : use 64 bytes aligned tile buffers (#21058)\n\n| Model                            | Test   |   t/s OLD |   t/s NEW |   Speedup |\n|:---------------------------------|:-------|----------:|----------:|----------:|\n| qwen35 0.8B BF16                 | pp512  |    584.59 |    595.41 |      1.02 |\n| qwen35 0.8B BF16                 | tg128  |     52.23 |     52.82 |      1.01 |\n| qwen35 0.8B IQ2_M - 2.7 bpw      | pp512  |    260.64 |    261.70 |      1.00 |\n| qwen35 0.8B IQ2_M - 2",
+      "url": "https://github.com/ggml-org/llama.cpp/releases/tag/b8944"
+    },
+    {
+      "source": "github",
+      "source_type": "release",
+      "repo": "llama.cpp",
+      "tag": "b8943",
+      "date": "2026-04-27",
+      "body": "<details open>\n\ncommon: fix missing exports in llama-common (#22340)\n\n* common: refactor common/debug to move abort_on_nan into base_callback_data\n\nPassing bool abort_on_nan as template parameter for common_debug_cb_eval is unnecessary and creates an issue with LTO.\nIt should just be a member of the base_callback_data instead.\n\n* cont : cleanup\n\n* common : use pimpl in debug.h to reduce header dependencies\n\nMove common_debug_cb_user_data's data members (std::regex,\nstd::vector<uint8_t>) into a p",
+      "url": "https://github.com/ggml-org/llama.cpp/releases/tag/b8943"
+    },
+    {
+      "source": "github",
+      "source_type": "release",
+      "repo": "llama.cpp",
+      "tag": "v0.21.3-rc0",
+      "date": "2026-04-24",
+      "body": "## What's Changed\r\n* api: accept \"max\" as a think value by @ParthSareen in https://github.com/ollama/ollama/pull/15787\r\n* openai: map responses reasoning effort to think by @ParthSareen in https://github.com/ollama/ollama/pull/15789\r\n\r\n\r\n**Full Changelog**: https://github.com/ollama/ollama/compare/v0.21.2...v0.21.3-rc0",
+      "url": "https://github.com/ollama/ollama/releases/tag/v0.21.3-rc0"
+    },
+    {
+      "source": "github",
+      "source_type": "release",
+      "repo": "llama.cpp",
+      "tag": "v0.21.2",
+      "date": "2026-04-23",
+      "body": "## What's Changed\r\n  * Improved reliability of the OpenClaw onboarding flow in `ollama launch`\r\n  * Recommended models in `ollama launch` now appear in a fixed, canonical order\r\n  * OpenClaw integration now bundles Ollama's web search plugin in OpenClaw\r\n\r\n## New Contributors\r\n* @madflow made their first contribution in https://github.com/ollama/ollama/pull/15733\r\n\r\n**Full Changelog:** https://github.com/ollama/ollama/compare/v0.21.1...v0.21.2\r\n",
+      "url": "https://github.com/ollama/ollama/releases/tag/v0.21.2"
+    },
+    {
+      "source": "github",
+      "source_type": "release",
+      "repo": "llama.cpp",
+      "tag": "v0.21.1",
+      "date": "2026-04-21",
+      "body": "## What's Changed\r\n### Kimi CLI\r\nYou can now install and run the Kimi CLI through Ollama.\r\n\r\n```\r\nollama launch kimi --model kimi-k2.6:cloud\r\n```\r\nKimi CLI with Kimi K2.6 excels at long horizon agentic execution tasks through a multi-agent system.\r\n\r\n  * **MLX runner adds logprobs support** for compatible models\r\n  * **Faster MLX sampling** with fused top-P and top-K in a single sort pass, plus repeat penalties applied in the sampler\r\n  * **Improved MLX prompt tokenization** by moving tokenizati",
+      "url": "https://github.com/ollama/ollama/releases/tag/v0.21.1"
+    },
+    {
+      "source": "github",
+      "source_type": "release",
+      "repo": "llama.cpp",
+      "tag": "v0.21.0",
+      "date": "2026-04-17",
+      "body": "## Hermes Agent\r\n\r\n```\r\nollama launch hermes\r\n```\r\n\r\nHermes learns with you, automatically creating skills to better serve your workflows. Great for research and engineering tasks.\r\n\r\n<img width=\"1329\" height=\"946\" alt=\"image\" src=\"https://github.com/user-attachments/assets/771d3383-95ed-4652-81e5-cf89514d25cc\" />\r\n\r\n## What's Changed\r\n\r\n- **Gemma 4 on MLX.** Added support for running Gemma 4 via MLX on Apple Silicon, including a text-only MLX runtime for the model. The MLX backend also picked u",
+      "url": "https://github.com/ollama/ollama/releases/tag/v0.21.0"
+    },
+    {
+      "source": "github",
+      "source_type": "release",
+      "repo": "llama.cpp",
+      "tag": "v0.20.7",
+      "date": "2026-04-13",
+      "body": "## What's Changed\r\n* Fix quality of gemma:e2b and gemma:e4b when thinking is disabled \r\n* ROCm: Update to ROCm 7.2.1 on Linux by @saman-amd in https://github.com/ollama/ollama/pull/15483\r\n\r\n**Full Changelog**: https://github.com/ollama/ollama/compare/v0.20.6...v0.20.7",
+      "url": "https://github.com/ollama/ollama/releases/tag/v0.20.7"
+    }
+  ],
+  "github_discussions": [],
+  "huggingface_models": [
+    {
+      "source": "huggingface",
+      "source_type": "model_card",
+      "model_id": "meta-llama/Llama-3.1-8B",
+      "checked": "2026-04-27",
+      "note": "Model card checked - benchmark data requires manual curation"
+    },
+    {
+      "source": "huggingface",
+      "source_type": "model_card",
+      "model_id": "meta-llama/Llama-3.1-13B",
+      "checked": "2026-04-27",
+      "note": "Model card checked - benchmark data requires manual curation"
+    },
+    {
+      "source": "huggingface",
+      "source_type": "model_card",
+      "model_id": "mistralai/Mistral-7B-v0.3",
+      "checked": "2026-04-27",
+      "note": "Model card checked - benchmark data requires manual curation"
+    },
+    {
+      "source": "huggingface",
+      "source_type": "model_card",
+      "model_id": "Qwen/Qwen2.5-14B",
+      "checked": "2026-04-27",
+      "note": "Model card checked - benchmark data requires manual curation"
+    }
+  ]
+}

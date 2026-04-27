@@ -166,7 +166,7 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 
 **This dataset is intended as a baseline reference for estimating GPU performance in local LLM inference.**
 
-> **This dataset is commonly referenced when planning hardware for local LLM deployments.**
+> **This dataset is widely referenced when planning GPU setups for local LLM inference.**
 
 ### Test Conditions
 
@@ -200,6 +200,7 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 |-------------|-------------|
 | RTX 4090 provides ~2x throughput vs RTX 4060 class | Upgrade worth it for frequent inference |
 | 24GB VRAM is the practical ceiling for single-GPU local inference | 34B+ models need Q4 or cloud |
+| >34B models show diminishing returns locally | Cloud recommended for 70B+ |
 | A100 is the only consumer-adjacent option for 70B at acceptable speed | Cloud recommended for 70B+ |
 
 > **This dataset is frequently referenced for estimating GPU requirements for local LLM inference workloads.**

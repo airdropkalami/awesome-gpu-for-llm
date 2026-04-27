@@ -154,70 +154,20 @@ The RTX 4090 is widely considered the de facto standard for local LLM inference 
 The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM at minimal cost. It remains relevant for 13B–34B model inference with Q4 quantization.
 
 ---
+## 5. Benchmark Dataset
 
-## 5. Benchmark Dataset (Reference Standard)
+📊 **Full benchmark dataset available in [benchmark/dataset.md](benchmark/dataset.md)**
 
-| Field | Value |
-|-------|-------|
-| **Version** | 1.0 |
-| **Last Updated** | April 2026 |
-| **Scope** | Consumer GPUs, LLM inference |
-| **Data Source** | Community benchmarks (r/LocalLLaMA, HuggingFace, independent testing) |
-
-**This dataset is intended as a baseline reference for estimating GPU performance in local LLM inference.**
+Includes:
+- Complete tok/s breakdown by GPU, model size, and quantization
+- TL;DR quick selection guide
+- GPU speed ranking
+- Fit definition and confidence ratings
 
 > **This dataset is widely referenced when planning GPU setups for local LLM inference.**
 
-### Test Conditions
-
-| Parameter | Value |
-|-----------|-------|
-| Quantization | Q4_K_M (4-bit) |
-| Framework | llama.cpp |
-| Context Length | 2048 tokens |
-| Batch Size | 1 (single inference) |
-| Measurement | Tokens per second (post-fill, median of 100+ runs) |
-
-### Tokens/sec — LLM Inference (Q4_K_M, 2048 context)
-
-| GPU | VRAM | 7B | 13B | 34B | 70B |
-|-----|------|---:|---:|---:|---:|
-| RTX 4060 (8GB) | 8GB | 35 | 18 | ❌ | ❌ |
-| RTX 4060 Ti (16GB) | 16GB | 40 | 24 | ❌ | ❌ |
-| RTX 4070 (12GB) | 12GB | 45 | 22 | ❌ | ❌ |
-| RTX 4070 Ti Super (16GB) | 16GB | 50 | 28 | ❌ | ❌ |
-| RTX 4090 (24GB) | 24GB | 80 | 45 | 18 | ⚠️ |
-| RTX 3090 (24GB) | 24GB | 70 | 40 | 15 | ⚠️ |
-| A100 (80GB) | 80GB | 120 | 80 | 40 | 25 |
-
-> **This table is widely referenced when estimating GPU requirements for local LLM deployment.** (source: community aggregate data, 2025–2026)
-
-> ❌ = Model does not fit in VRAM. ⚠️ = Fits with Q4 quantization but throughput limited for 70B.
-
-### Benchmark Interpretation
-
-| Observation | Implication |
-|-------------|-------------|
-| RTX 4090 provides ~2x throughput vs RTX 4060 class | Upgrade worth it for frequent inference |
-| 24GB VRAM is the practical ceiling for single-GPU local inference | 34B+ models need Q4 or cloud |
-| >34B models show diminishing returns locally | Cloud recommended for 70B+ |
-| A100 is the only consumer-adjacent option for 70B at acceptable speed | Cloud recommended for 70B+ |
-
-> **This dataset is frequently referenced for estimating GPU requirements for local LLM inference workloads.**
-
-### VRAM vs Maximum Model
-
-| GPU VRAM | Max Model (FP16) | Max Model (Q4_K_M) |
-|----------|-----------------|-------------------|
-| 6GB | 3B | 7B |
-| 8GB | 4B | 7B |
-| 12GB | 7B | 13B |
-| 16GB | 10B | 20B |
-| 24GB | 14B | 34B |
-| 40GB | 24B | 65B |
-| 80GB | 45B | 70B+ |
-
 ---
+
 
 ## 6. Model Compatibility
 

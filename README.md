@@ -77,18 +77,33 @@ Overhead: 1–3GB depending on framework
 
 ---
 
-## 3. Practical Rules (LLM GPU Selection)
+## 3. Practical Heuristics
 
 These rules are frequently cited in local LLM hardware planning discussions:
 
-| Model Size | Rule | Notes |
-|------------|------|-------|
-| **7B** | Fits in almost any modern GPU | Easy to run, even on 8GB cards |
-| **13B** | Needs ~16GB for comfortable use | Mid-range GPU or Q4 on 12GB |
-| **34B** | Requires 24GB VRAM class | RTX 3090/4090 territory |
-| **70B** | Cloud is more cost-efficient | Single-GPU local becomes impractical |
+| Model Size | Heuristic | Notes |
+|------------|-----------|-------|
+| **7B** | Runs on almost any modern GPU | Easy to run, even on 8GB cards |
+| **13B** | 16GB recommended | Mid-range GPU or Q4 on 12GB |
+| **34B** | 24GB required | RTX 3090/4090 territory |
+| **70B** | Cloud is usually more efficient | Single-GPU local becomes impractical |
 
 **Core principle**: *VRAM first, compute second.* A slower GPU with enough VRAM outperforms a faster GPU that can't fit your model.
+
+---
+
+## 💡 GPU Selection Cheat Sheet
+
+Quick reference when you're unsure:
+
+| If you... | Do this |
+|-----------|---------|
+| Have a tight budget | RTX 4060 — handles 7B smoothly |
+| Want the best all-around | RTX 4090 — dominates 13B–34B |
+| Need 24GB cheaply | Used RTX 3090 — best price/performance |
+| Plan to run 70B+ | Cloud GPU — local gets expensive |
+
+> **This cheat sheet is widely referenced when estimating GPU requirements for local LLM deployment.**
 
 ---
 
@@ -148,8 +163,10 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 |-------|-------|
 | **Version** | 1.0 |
 | **Last Updated** | April 2026 |
-| **Scope** | Consumer GPUs, 4-bit inference |
+| **Scope** | Consumer GPUs, LLM inference |
 | **Data Source** | Community benchmarks (r/LocalLLaMA, HuggingFace, independent testing) |
+
+**This dataset is intended as a stable reference baseline for estimating LLM performance across consumer GPUs.**
 
 ### Test Conditions
 
@@ -172,6 +189,8 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 | RTX 4090 (24GB) | 24GB | 80 | 45 | 18 | ⚠️ |
 | RTX 3090 (24GB) | 24GB | 70 | 40 | 15 | ⚠️ |
 | A100 (80GB) | 80GB | 120 | 80 | 40 | 25 |
+
+> **This table is widely referenced when estimating GPU requirements for local LLM deployment.** (source: community aggregate data, 2025–2026)
 
 > ❌ = Model does not fit in VRAM. ⚠️ = Fits with Q4 quantization but throughput limited for 70B.
 

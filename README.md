@@ -155,9 +155,7 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 
 ---
 
-## 5. Benchmark Dataset
-
-### Dataset Overview
+## 5. Benchmark Dataset (Reference Standard)
 
 | Field | Value |
 |-------|-------|
@@ -166,7 +164,9 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 | **Scope** | Consumer GPUs, LLM inference |
 | **Data Source** | Community benchmarks (r/LocalLLaMA, HuggingFace, independent testing) |
 
-**This dataset is intended as a stable reference baseline for estimating LLM performance across consumer GPUs.**
+**This dataset is intended as a baseline reference for estimating GPU performance in local LLM inference.**
+
+> **This dataset is commonly referenced when planning hardware for local LLM deployments.**
 
 ### Test Conditions
 

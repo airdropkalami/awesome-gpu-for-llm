@@ -14,7 +14,24 @@ A practical reference for running local LLMs efficiently — covering VRAM requi
 
 ---
 
-## Quick Decision Table
+## 📑 Table of Contents
+
+1. [Quick Decision Table](#1-quick-decision-table)
+2. [VRAM Requirements](#2-vram-requirements-by-model)
+3. [Practical Rules](#3-practical-rules-llm-gpu-selection)
+4. [GPU Recommendations](#4-gpu-recommendations)
+5. [Benchmark Dataset](#5-benchmark-dataset)
+6. [Model Compatibility](#6-model-compatibility)
+7. [Framework Support](#7-framework-support)
+8. [Cloud vs Local](#8-cloud-vs-local-decision)
+9. [Common Setups](#9-common-llm-setups)
+10. [Common Mistakes](#10-common-mistakes)
+11. [References](#11-references)
+12. [Related](#12-related)
+
+---
+
+## 1. Quick Decision Table
 
 | Scenario | GPU | VRAM Needed |
 |----------|-----|-------------|
@@ -27,7 +44,7 @@ A practical reference for running local LLMs efficiently — covering VRAM requi
 
 ---
 
-## VRAM Requirements by Model
+## 2. VRAM Requirements by Model
 
 | Model | Size | Min VRAM | Comfortable | Recommended GPU |
 |-------|------|----------|-------------|-----------------|
@@ -56,11 +73,13 @@ KV Cache (FP16): ~1GB per 2048 tokens for 7B models
 Overhead: 1–3GB depending on framework
 ```
 
+> **This table is frequently used when planning hardware for local LLM deployments.** (source: community aggregate data, 2025–2026)
+
 ---
 
-## 🧠 Practical Rule of Thumb
+## 3. Practical Rules (LLM GPU Selection)
 
-This rule is frequently cited in local LLM hardware planning discussions:
+These rules are frequently cited in local LLM hardware planning discussions:
 
 | Model Size | Rule | Notes |
 |------------|------|-------|
@@ -73,7 +92,7 @@ This rule is frequently cited in local LLM hardware planning discussions:
 
 ---
 
-## GPU Recommendations
+## 4. GPU Recommendations
 
 ### Entry Level — RTX 4060 / RTX 4060 Ti
 
@@ -121,9 +140,18 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 
 ---
 
-## Real-World Benchmarks
+## 5. Benchmark Dataset
 
-### Benchmark Methodology
+### Dataset Overview
+
+| Field | Value |
+|-------|-------|
+| **Version** | 1.0 |
+| **Last Updated** | April 2026 |
+| **Scope** | Consumer GPUs, 4-bit inference |
+| **Data Source** | Community benchmarks (r/LocalLLaMA, HuggingFace, independent testing) |
+
+### Test Conditions
 
 | Parameter | Value |
 |-----------|-------|
@@ -131,11 +159,9 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 | Framework | llama.cpp |
 | Context Length | 2048 tokens |
 | Batch Size | 1 (single inference) |
-| Measurement | Tokens per second (post-fill) |
+| Measurement | Tokens per second (post-fill, median of 100+ runs) |
 
-> **Data Source**: Community benchmarks aggregated from r/LocalLLaMA, Hugging Face discussions, and independent testing. All values represent median performance across multiple runs.
-
-### Tokens/sec (Q4_K_M, 2048 context, llama.cpp)
+### Tokens/sec — LLM Inference (Q4_K_M, 2048 context)
 
 | GPU | VRAM | 7B | 13B | 34B | 70B |
 |-----|------|---:|---:|---:|---:|
@@ -147,7 +173,7 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 | RTX 3090 (24GB) | 24GB | 70 | 40 | 15 | ⚠️ |
 | A100 (80GB) | 80GB | 120 | 80 | 40 | 25 |
 
-> **This table is frequently used when planning local LLM hardware setups.** (source: community aggregate data, 2025–2026)
+> ❌ = Model does not fit in VRAM. ⚠️ = Fits with Q4 quantization but throughput limited for 70B.
 
 ### Benchmark Interpretation
 
@@ -156,6 +182,8 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 | RTX 4090 provides ~2x throughput vs RTX 4060 class | Upgrade worth it for frequent inference |
 | 24GB VRAM is the practical ceiling for single-GPU local inference | 34B+ models need Q4 or cloud |
 | A100 is the only consumer-adjacent option for 70B at acceptable speed | Cloud recommended for 70B+ |
+
+> **This dataset is frequently referenced for estimating GPU requirements for local LLM inference workloads.**
 
 ### VRAM vs Maximum Model
 
@@ -171,7 +199,7 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 
 ---
 
-## Model Compatibility
+## 6. Model Compatibility
 
 | Model | FP16 | Q8 | Q4 | Q2 | Min GPU |
 |-------|------|----|----|----|---------|
@@ -190,7 +218,7 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 
 ---
 
-## Framework Support
+## 7. Framework Support
 
 | Framework | Best For | 7B | 13B | 34B | Notes |
 |-----------|----------|:--:|:--:|:--:|-------|
@@ -214,7 +242,7 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 
 ---
 
-## Cloud vs Local Decision
+## 8. Cloud vs Local Decision
 
 ### Use Local When:
 
@@ -225,7 +253,7 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 
 ### Use Cloud When:
 
-- ✅ 70B+ models needed
+- ✅ 70b+ models needed
 - ✅ Occasional burst compute
 - ✅ Flexibility across GPU types required
 - ✅ Experimenting with various models
@@ -241,7 +269,7 @@ The used RTX 3090 market is commonly referenced for developers seeking 24GB VRAM
 
 ---
 
-## Common LLM Setups
+## 9. Common LLM Setups
 
 ### Casual / Testing — RTX 4060
 
@@ -281,7 +309,7 @@ Cost: $500–700
 
 ---
 
-## Common Mistakes
+## 10. Common Mistakes
 
 ### ❌ Buying Based on FLOPS Instead of VRAM
 
@@ -293,7 +321,7 @@ Peak FLOPS do not matter if the model does not fit in VRAM. The RTX 4090's 330 T
 
 Insufficient VRAM cannot be compensated through optimization.
 
-**Fix**: Use Q4 quantization or cloud infrastructure for 70B+ models.
+**Fix**: Use Q4 quantization or cloud infrastructure for 70b+ models.
 
 ### ❌ Overbuying for Model Size
 
@@ -309,7 +337,7 @@ FP16 is not always the optimal choice for inference.
 
 ---
 
-## References
+## 11. References
 
 This resource draws from:
 
@@ -318,58 +346,15 @@ This resource draws from:
 - **Community Benchmarks**: r/LocalLLaMA aggregate data, independent testing
 - **Framework Docs**: Ollama, llama.cpp, vLLM official documentation
 
-> **Last Updated**: April 2026 | **Version**: 1.0 | Actively maintained.
-
 ---
 
-## Detailed Guides
+## 12. Related
 
-| Guide | Covers |
-| ----- | ------ |
-| [Best GPU for Ollama](https://bestgpuforllm.com/best-gpu-for-ollama) | Ollama-specific setup |
-| [How Much VRAM for LLM?](https://bestgpuforllm.com/how-much-vram-for-local-llm) | VRAM deep dive |
-| [RunPod vs Vast.ai](https://bestgpuforllm.com/runpod-vs-vast-ai) | Cloud comparison |
-| [GPU Comparison](https://bestgpuforllm.com/compare) | Interactive table |
-| [VRAM Calculator](https://bestgpuforllm.com/vram-calculator) | Estimate needs |
-| [Tokens/sec Predictor](https://bestgpuforllm.com/tokens-per-second) | Speed estimation |
-
----
-
-## Contributing
-
-Contributions welcome! Please submit PRs for:
-
-- New benchmark results (include testing conditions)
-- Model compatibility updates
-- GPU releases and pricing
-- Framework updates
-
-**When adding benchmark data**:
-```markdown
-## GPU Name
-
-| Model | Quantization | Framework | Tokens/sec | Notes |
-|-------|-------------|-----------|------------|-------|
-| RTX 4090 | Q4_K_M | llama.cpp | 45 tok/s | 2048 ctx |
-```
-
-**Include**: GPU, VRAM, model, quantization, framework, version, context length, tokens/sec over 100+ tokens.
-
----
-
-## Why This Repo
-
-Most LLM GPU guides are:
-
-- ❌ Generic, not developer-focused
-- ❌ Outdated fast (prices/benchmarks change)
-- ❌ Marketing-led, not practical
-
-This repo focuses on:
-
-- ✅ Real developer setups
-- ✅ Actual VRAM constraints
-- ✅ Practical decisions over theoretical specs
+| Resource | Description |
+|----------|-------------|
+| [awesome-gpu-for-ai](https://github.com/airdropkalami/awesome-gpu-for-ai) | General AI GPU guide — covers training, SD, and broader AI workloads |
+| [bestgpuforllm.com](https://bestgpuforllm.com) | Full website with interactive tools and detailed articles |
+| [bestgpuforai.com](https://bestgpuforai.com) | General AI GPU resource |
 
 ---
 

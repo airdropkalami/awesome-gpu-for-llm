@@ -9,8 +9,8 @@ A practical reference for running local LLMs efficiently — covering VRAM requi
 [![GPU Platforms](https://img.shields.io/badge/GPU-CUDA%20%7C%20ROCm-blue?style=for-the-badge)](https://developer.nvidia.com/cuda-gpus)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
-[![Last Updated](https://img.shields.io/badge/Updated-2026--04-orange?style=for-the-badge)]()
-[![Version](https://img.shields.io/badge/Version-1.0-blue?style=for-the-badge)]()
+[![Last Updated](https://img.shields.io/badge/Updated-2026--05-orange?style=for-the-badge)]()
+[![Version](https://img.shields.io/badge/Version-1.1-blue?style=for-the-badge)]()
 
 ---
 
@@ -183,6 +183,11 @@ Includes:
 | DeepSeek 33B | 66GB | 35GB | 19GB | 11GB | RTX 4090 |
 | Phi-3 Medium | 16GB | 9GB | 5GB | 3GB | RTX 4060 |
 | Gemma 9B | 18GB | 10GB | 6GB | 3.5GB | RTX 4060 |
+| Llama 4 Scout (109B MoE) | 218GB | 110GB | 25GB | 14GB | RTX 5090 |
+| Llama 4 Maverick (400B MoE) | 800GB | 400GB | 80GB | 45GB | Multi-GPU / Cloud |
+| Gemma 4 26B-A4B (MoE) | 52GB | 27GB | 14GB | 8GB | RTX 4070 Ti Super |
+| Gemma 4 31B Dense | 62GB | 32GB | 17GB | 10GB | RTX 4090 |
+| Qwen 3.6 35B-A3B (MoE) | 70GB | 36GB | 18GB | 11GB | RTX 4090 |
 
 > Full compatibility table: [bestgpuforllm.com/compare](https://bestgpuforllm.com/compare)
 

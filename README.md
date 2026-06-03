@@ -9,8 +9,8 @@ A practical reference for running local LLMs efficiently — covering VRAM requi
 [![GPU Platforms](https://img.shields.io/badge/GPU-CUDA%20%7C%20ROCm-blue?style=for-the-badge)](https://developer.nvidia.com/cuda-gpus)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-Welcome-brightgreen?style=for-the-badge)](CONTRIBUTING.md)
-[![Last Updated](https://img.shields.io/badge/Updated-2026--05-orange?style=for-the-badge)]()
-[![Version](https://img.shields.io/badge/Version-1.1-blue?style=for-the-badge)]()
+[![Last Updated](https://img.shields.io/badge/Updated-2026--06-orange?style=for-the-badge)]()
+[![Version](https://img.shields.io/badge/Version-1.2-blue?style=for-the-badge)]()
 
 ---
 
@@ -188,6 +188,8 @@ Includes:
 | Gemma 4 26B-A4B (MoE) | 52GB | 27GB | 14GB | 8GB | RTX 4070 Ti Super |
 | Gemma 4 31B Dense | 62GB | 32GB | 17GB | 10GB | RTX 4090 |
 | Qwen 3.6 35B-A3B (MoE) | 70GB | 36GB | 18GB | 11GB | RTX 4090 |
+| Mistral Medium 3.5 (128B dense, Apr 2026) | 256GB | 128GB | 64GB | 40GB | Multi-GPU / Cloud |
+| Phi-4 (14B, May 2026) | 28GB | 15GB | 8GB | 5GB | RTX 4070 Ti Super |
 
 > Full compatibility table: [bestgpuforllm.com/compare](https://bestgpuforllm.com/compare)
 

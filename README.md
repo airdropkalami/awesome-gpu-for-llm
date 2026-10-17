@@ -333,6 +333,7 @@ This resource draws from:
 | [awesome-gpu-for-ai](https://github.com/airdropkalami/awesome-gpu-for-ai) | General AI GPU guide — covers training, SD, and broader AI workloads |
 | [bestgpuforllm.com](https://bestgpuforllm.com) | Full website with interactive tools and detailed articles |
 | [bestgpuforai.com](https://bestgpuforai.com) | General AI GPU resource |
+| [InfraBench](https://sectoroneventures.github.io/infrabench/) | Free interactive VRAM calculator (weights + KV cache) and live hourly cloud GPU price checker |
 
 ---
 
